@@ -11,7 +11,7 @@ def notifyMe(title,message):
     notification.notify(
         title = title,
         message = message,
-        app_icon = "Images\\icon.ico",
+        app_icon = None,
         timeout = 10
     )
 
@@ -26,23 +26,18 @@ if __name__ == "__main__":
     soup = BeautifulSoup(myHTMLData, 'html.parser')
     # print(soup.prettify()) 
     myDataStr = ""
-    for tr in soup.find_all('tbody')[3].find_all('tr'):
+    for tr in soup.find_all('tbody')[4].find_all('tr'):
         myDataStr += tr.get_text()
-    myDataStr = myDataStr[1:]    
+    # print(myDataStr)
+    myDataStr = myDataStr[1:] 
+    # print(myDataStr)
     itemList =  myDataStr.split("\n\n")    
     # print(itemList)
-    proviences = ['\xa0Sindh', '\xa0Punjab']
-    # proviences = proviences[3:]
 
+    title = "Cases of Covid-19 in Pakistan"
+    message = f" Provience : {itemList[0]} \n Cases : {itemList[1]}\n Deaths : {itemList[2]} \n Recoveries : {itemList[3]} \n Active Cases : {itemList[4]} \n Cases / 1M. People : {itemList[5]} "
+    proviences = ['\xa0Sindh', '\xa0Punjab']    
     for item in itemList[0:22]:
         dataList = item.split('\n')
-    d =  dataList[0] 
-    print(d)   
-        # print(type(dataList))   
-        # print(len(dataList)) 
-        # title = "Cases of Covid-19 in Pakistan"
-        # message = f" Provience : {dataList[0]} \n Cases : {dataList[1]}\n Deaths : {dataList[2]} \n Recoveries : {dataList[3]} \n Active Cases : {dataList[4]} \n Cases / 1M. People : {dataList[5]} "
-        
-        # if dataList[0] in proviences:
-        #     notifyMe(title,message)
-        #     print(dataList)    
+        if dataList[0] in proviences:
+            notifyMe(title,message)
